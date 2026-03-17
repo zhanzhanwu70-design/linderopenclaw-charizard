@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}OpenClaw Media Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="{{ url_for('index') }}">🔥 OpenClaw Media</a>
+        </div>
+        <div class="nav-links">
+            {% if current_user.is_authenticated %}
+                <span>👤 {{ current_user.username }}</span>
+                <a href="{{ url_for('index') }}">📁 檔案</a>
+                <a href="{{ url_for('upload') }}">⬆️ 上傳</a>
+                <a href="{{ url_for('logout') }}">🚪 登出</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">🔐 登入</a>
+                <a href="{{ url_for('register') }}">📝 註冊</a>
+            {% endif %}
+        </div>
+    </nav>
+    
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+    
+    <footer class="footer">
+        <p>Powered by OpenClaw 🦄</p>
+    </footer>
+</body>
+</html>

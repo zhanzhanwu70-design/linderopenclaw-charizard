@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="toolbar">
+    <h2>📁 檔案列表 {% if current_folder != '/' %} - {{ current_folder }}{% endif %}</h2>
+    <div class="toolbar-actions">
+        <a href="{{ url_for('upload', folder=current_folder) }}" class="btn btn-primary">⬆️ 上傳</a>
+        <form method="POST" action="{{ url_for('create_folder') }}" class="inline-form">
+            <input type="hidden" name="parent_folder" value="{{ current_folder }}">
+            <input type="text" name="folder_name" placeholder="新資料夾" required>
+            <button type="submit" class="btn btn-secondary">📁 新資料夾</button>
+        </form>
+    </div>
+</div>
+
+<div class="search-box">
+    <form method="GET" action="{{ url_for('search') }}">
+        <input type="text" name="q" placeholder="搜尋檔案..." value="{{ search_query or '' }}">
+        <button type="submit">🔍 搜尋</button>
+    </form>
+</div>
+
+{% if folders %}
+<div class="folder-list">
+    {% for folder in folders %}
+    <div class="item folder">
+        <a href="{{ url_for('index', folder=folder.path) }}">
+            <span class="icon">📁</span>
+            <span class="name">{{ folder.name }}</span>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if files or search_results %}
+<table class="file-table">
+    <thead>
+        <tr>
+            <th>名稱</th>
+            <th>大小</th>
+            <th>日期</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if search_results %}
+            {% for file in search_results %}
+            <tr>
+                <td>📄 {{ file.name }}</td>
+                <td>{{ file.size }}</td>
+                <td>-</td>
+                <td>
+                    <a href="{{ url_for('view', filename=file.path) }}" target="_blank" class="btn btn-sm">👁️</a>
+                    <a href="{{ url_for('download', filename=file.path) }}" class="btn btn-sm">⬇️</a>
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            {% for file in files %}
+            <tr>
+                <td>📄 {{ file.name }}</td>
+                <td>{{ file.size }}</td>
+                <td>{{ file.date }}</td>
+                <td>
+                    <a href="{{ url_for('view', filename=(current_folder + '/' + file.name)|replace('//', '/')) }}" target="_blank" class="btn btn-sm">👁️</a>
+                    <a href="{{ url_for('download', filename=(current_folder + '/' + file.name)|replace('//', '/')) }}" class="btn btn-sm">⬇️</a>
+                    <form method="POST" action="{{ url_for('delete', filename=(current_folder + '/' + file.name)|replace('//', '/')) }}" style="display:inline" onsubmit="return confirm('確定刪除？');">
+                        <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty">尚無檔案</p>
+{% endif %}
+
+<div class="stats">
+    <span>💾 總空間使用：{{ total_size }}</span>
+</div>
+{% endblock %}

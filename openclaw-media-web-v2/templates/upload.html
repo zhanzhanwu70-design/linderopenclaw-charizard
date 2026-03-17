@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="upload-form">
+    <h2>⬆️ 上傳檔案到 {{ folder }}</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="file" name="file" accept="image/*,.pdf,.txt,.doc,.docx" required>
+        </div>
+        <div class="form-info">
+            支援格式: PNG, JPG, GIF, WEBP, PDF, TXT, DOC<br>
+            最大檔案大小: 50MB
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">上傳</button>
+            <a href="{{ url_for('index', folder=folder) }}" class="btn btn-secondary">取消</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
