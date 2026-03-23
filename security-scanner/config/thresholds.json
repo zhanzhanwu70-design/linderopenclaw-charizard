@@ -1,0 +1,54 @@
+{
+  "thresholds": {
+    "safe": 20,
+    "low": 40,
+    "medium": 60,
+    "high": 80
+  },
+  "blockOnHigh": true,
+  "blockOnCritical": true,
+  "logAllScans": true,
+  "logDir": "/home/node/.openclaw/logs/security",
+  "maxHistorySize": 100,
+  "maxChainDepth": 5,
+  "selfCallThreshold": 10,
+  "scanners": {
+    "fileSystem": {
+      "enabled": true,
+      "whitelist": [
+        "/tmp/",
+        "/var/tmp/",
+        "/home/node/.openclaw/workspace-charizard/"
+      ]
+    },
+    "network": {
+      "enabled": true,
+      "whitelist": [
+        "api.openai.com",
+        "api.anthropic.com",
+        "openai.com",
+        "github.com",
+        "api.github.com"
+      ]
+    },
+    "commandExec": {
+      "enabled": true
+    },
+    "promptInjection": {
+      "enabled": true
+    },
+    "toolChain": {
+      "enabled": true
+    },
+    "sensitiveData": {
+      "enabled": true
+    },
+    "anomaly": {
+      "enabled": true,
+      "suspiciousHours": {
+        "start": 0,
+        "end": 5
+      }
+    }
+  }
+}
