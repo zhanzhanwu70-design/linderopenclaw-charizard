@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>系統架構投影片</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #fff;
+    }
+    
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+      page-break-after: always;
+    }
+    
+    .slide-title {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    h1 {
+      font-size: 4em;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    h2 {
+      font-size: 2.5em;
+      color: #667eea;
+      margin-bottom: 40px;
+    }
+    
+    .org-chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+    
+    .level {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      position: relative;
+    }
+    
+    .box {
+      background: #fff;
+      color: #333;
+      padding: 20px 40px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.3em;
+      text-align: center;
+      min-width: 120px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .box.admin { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: #fff; }
+    .box.customer { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .box.leader { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .box.operator { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    
+    .connector {
+      width: 3px;
+      height: 30px;
+      background: #667eea;
+      margin: 0 auto;
+    }
+    
+    .connector-h {
+      height: 3px;
+      background: #667eea;
+      width: 60%;
+      margin: 0 auto;
+    }
+    
+    .connector-v {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .flow-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .flow-box {
+      background: #fff;
+      color: #333;
+      padding: 25px 50px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.5em;
+      text-align: center;
+      min-width: 200px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    
+    .flow-box.delete { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+    .flow-box.soft { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+    .flow-box.recycle { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+    .flow-box.restore { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); }
+    .flow-box.permanent { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: #fff; }
+    .flow-box.log { background: #333; color: #667eea; font-size: 0.9em; }
+    
+    .arrow {
+      font-size: 2em;
+      color: #667eea;
+    }
+    
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .note {
+      margin-top: 40px;
+      padding: 20px 40px;
+      background: #333;
+      border-radius: 12px;
+      font-size: 1.2em;
+      color: #fa709a;
+    }
+    
+    .slide-footer {
+      position: absolute;
+      bottom: 30px;
+      font-size: 1em;
+      color: #666;
+    }
+    
+    @media print {
+      .slide { page-break-after: always; height: 100vh; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Slide 1: 組織架構 -->
+<div class="slide slide-title">
+  <h1>系統組織架構</h1>
+  
+  <div class="org-chart">
+    <div class="level">
+      <div class="box admin">👑 Admin</div>
+    </div>
+    
+    <div class="connector"></div>
+    <div class="connector-h"></div>
+    <div class="connector"></div>
+    
+    <div class="level">
+      <div class="box customer">Customer A</div>
+      <div class="box customer">Customer B</div>
+    </div>
+    
+    <div class="connector-v">
+      <div class="connector"></div>
+      <div class="connector-h"></div>
+      <div class="connector"></div>
+      <div class="connector-h"></div>
+      <div class="connector"></div>
+    </div>
+    
+    <div class="level">
+      <div class="box leader">Leader</div>
+      <div class="box leader">Leader</div>
+    </div>
+    
+    <div class="connector-v">
+      <div class="connector"></div>
+      <div class="connector"></div>
+    </div>
+    
+    <div class="level">
+      <div class="box operator">Operator</div>
+      <div class="box operator">Operator</div>
+      <div class="box operator">Operator</div>
+      <div class="box operator">Operator</div>
+    </div>
+  </div>
+  
+  <div class="slide-footer">系統架構示意圖</div>
+</div>
+
+<!-- Slide 2: Soft Delete 流程 -->
+<div class="slide">
+  <h2>Soft Delete 刪除機制</h2>
+  
+  <div class="flow-chart">
+    <div class="flow-box delete">🗑️ 使用者刪除</div>
+    <div class="arrow">↓</div>
+    <div class="flow-box log">📝 寫入 Log</div>
+    <div class="arrow">↓</div>
+    <div class="flow-box soft">⚠️ Soft Delete</div>
+    <div class="arrow">↓</div>
+    <div class="flow-box recycle">📦 Recycle Bin</div>
+    
+    <div class="flow-row" style="margin-top: 30px;">
+      <div class="flow-box restore">✅ Restore</div>
+      <div class="arrow">或</div>
+      <div class="flow-box permanent">❌ 永久刪除</div>
+    </div>
+    
+    <div class="flow-row" style="margin-top: 20px;">
+      <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
+      <div class="arrow">↓</div>
+    </div>
+    
+    <div class="flow-row">
+      <div class="flow-box" style="background: #43e97b;">⏰ 保留 7-14 天</div>
+      <div class="flow-box" style="background: #333; color: #667eea;">📝 寫入 Log</div>
+    </div>
+  </div>
+  
+  <div class="note">
+    ⚡ 不是真的刪除，只是標記刪除，可還原
+  </div>
+  
+  <div class="slide-footer">Soft Delete 流程圖</div>
+</div>
+
+</body>
+</html>
